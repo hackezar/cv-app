@@ -1,0 +1,18 @@
+.collegeCheck {
+    display: inline-block;
+    height: 1.5em;
+    width: 1.5em;
+}
+
+.jobInputDiv {
+    border: 1px solid black;
+    padding: 1em;
+}
+
+.jobInputDiv > input, label {
+    display: block;
+}
+
+textarea {
+    resize: none;
+}
