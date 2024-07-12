@@ -5,6 +5,7 @@
 }
 
 .jobInputDiv {
+    position: relative;
     border: 1px solid black;
     padding: 1em;
 }
@@ -15,4 +16,17 @@
 
 textarea {
     resize: none;
+}
+
+.deleteIcon {
+    position: absolute;
+    bottom:0px;
+    right:0px;
+    width: 1.8em;
+    height: 1.8em;
+    pointer-events: all;
+}
+
+.deleteIcon:hover {
+    cursor: pointer;
 }

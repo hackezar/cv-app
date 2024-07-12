@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { Header} from './App.jsx'
+import { Header} from './components/App.jsx'
 import { CollectDataApp } from './components/CollectData.jsx'
 import './styles/index.css'
 
