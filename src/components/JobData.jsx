@@ -48,20 +48,4 @@ const jobInputs = [
     }
 ];
 
-  const jobListItems = jobInputs.map(job => {
-    return(
-    job.type != 'textarea'
-    // Render a Input if the type isnt set as textarea 
-    ? 
-        <InputLi name={job.name} labelText={job.labelText} type={job.type} key={job.key} className={job.className} value={job.value}/>
-      
-    // Otherwise render a Textarea
-    : 
-        <TextAreaLi name={job.name} labelText={job.labelText} key={job.key} className={job.className} value={job.value} />        
-    )
-})
-
-
-
-
-export {jobListItems}
+export {jobInputs}

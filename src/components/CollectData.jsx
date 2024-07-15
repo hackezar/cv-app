@@ -11,8 +11,7 @@ import "../styles/CollectData.css"
 import DeleteIcon from "../assets/delete.svg"
 
 // Job Data
-import {  jobListItems } from './JobData.jsx';
-import { set } from 'mongoose';
+import {  jobInputs } from './JobData.jsx';
 
 function CollectDataApp() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -26,8 +25,17 @@ function CollectDataApp() {
     setData(newData);
   }
 
-  const buttonPress = function(num) {
+  const buttonPress = function(num, isPractical) {
     setActiveIndex(num);
+    if (isPractical) {
+      let inputItems = document.querySelectorAll('.inputItem');
+      inputItems = Array.from(inputItems);
+      let newData = data;
+      inputItems.map(item => {
+        newData.push([item.name, item.value]);
+      })
+      setData(newData);
+    }
   }
 
   console.log(data)
@@ -46,8 +54,9 @@ function CollectDataApp() {
       />
       <PracticalExperience
       isActive={activeIndex === 2}
-      buttonPress={() => buttonPress(0)}
-      handleChange={handleChange}
+      buttonPress={() => buttonPress(0, true)}
+      data={data}
+      setData={setData}
       />
     </>
   )
@@ -134,14 +143,23 @@ const [isChecked, setIsChecked] = useState(false);
 }
 
 function JobInput ({keyName, handleClick, index, handleChange}) {
+  const jobListItems = jobInputs.map(job => {
+    let jobName = job.name + index;
+    return(
+    job.type != 'textarea'
+    // Render a Input if the type isnt set as textarea 
+    ? 
+        <InputLi name={jobName} labelText={job.labelText} type={job.type} key={job.key} className={job.className} value={job.value} handleChange={handleChange}/>
+      
+    // Otherwise render a Textarea
+    : 
+        <TextAreaLi name={jobName} labelText={job.labelText} key={job.key} className={job.className} value={job.value} handleChange={handleChange}/>        
+    )
+  })
   return (
     <div className="jobInputDiv" key={keyName} >
       <h6>{'Job '+ (index)}</h6>
-      <InputLi name={('companyName' + 1)} labelText="Company Name" className="jobInputItem" handleChange={handleChange}/>
-      <InputLi name={('positionTitle' + 1)} labelText="Position Title" className="jobInputItem" handleChange={handleChange}/>
-      <TextAreaLi name={('jobRespons' + 1)} labelText="Job Responsibilities" className="jobInputItem" handleChange={handleChange}/>
-      <InputLi name={('dateFrom' + 1)} labelText="Date Started" className="jobInputItem" handleChange={handleChange}/>
-      <InputLi name={('dateTo' + 1)} labelText="Date Stopped Working" className="jobInputItem" handleChange={handleChange}/>
+      {jobListItems}
       <img src={DeleteIcon} className="deleteIcon" onClick={handleClick} />
     </div>
   )
@@ -149,44 +167,41 @@ function JobInput ({keyName, handleClick, index, handleChange}) {
 
 
 
-function PracticalExperience({ isActive, buttonPress, handleChange }) {
+function PracticalExperience({ isActive, buttonPress }) {
   // This section has a List of jobs that you can add and subtractfrom
   // Press X button to delete a job
   // Click add job to add a job
   // This way you can set as many job experiences as you want in the resume
   const [jobCount, setJobCount] = useState(1);
-  const [jobData, setJobData] = useState();
+  const [jobData, setJobData] = useState([{id: 'jobData' + jobCount, key: uuidv4(), label: 'Job #' + jobCount, data: null}]);
+
   const addJob = () => {
     console.log('job added')
       setJobData([
         ...jobData,
         { id: 'jobData' + (jobCount + 1), key: uuidv4(), data: null}
       ]);
-      setJobCount(jobData.length + 1)
+      setJobCount(jobData.length + 1);
   }
-  const deleteJobDiv = (removedKey) => {
-    // Store all current input data that has been entered
-    let jobDivsRendered = document.querySelectorAll('.jobInputDiv');
-    console.log(jobDivsRendered);
 
+  const deleteJobDiv = (removedKey, delIndex) => {
     //Remove the job div if the X icon is clicked
+    console.log(delIndex);
     setJobData(
       jobData.filter(job =>
         job.key !== removedKey
       )
-    );
+    )
   }
 
   return isActive &&
       <div className="practicalExperienceDiv">
-      <form className="inputForm" >
           <legend>Work History</legend>
           <ul className="list">
             {jobData.map((job, index) => (
-              <JobInput key={job.key} index={index + 1} handleChange={handleChange} handleClick={ () => deleteJobDiv(job.key) }/>
+              <JobInput key={job.key} index={index + 1} handleClick={ () => deleteJobDiv(job.key, (index + 1)) }/>
             ))}
           </ul>
-      </form>
       <div className='buttonsDiv'>
           <button className="addJobBtn" onClick={addJob}>Add Job</button>
       </div>
