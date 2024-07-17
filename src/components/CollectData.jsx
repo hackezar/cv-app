@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react'
 
+// Elements
+import { InputLi, TextAreaLi, InputDropdown } from './ElementComponents.jsx';
+
 // Unique Key
 import { v4 as uuidv4 } from 'uuid';
 
@@ -12,33 +15,61 @@ import DeleteIcon from "../assets/delete.svg"
 
 // Job Data
 import {  jobInputs } from './JobData.jsx';
+import { DataOverview } from './DataOverview.jsx';
 
 function CollectDataApp() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [data, setData] = useState([]);
+  // Below is used for educational experience element
+  const [isChecked, setIsChecked] = useState(false);
+  const [jobCount, setJobCount] = useState(1);
+  const [data, setData] = useState({
+    generalInfo: [],
+    educationalExperience: [],
+    practicalExperience: [],
+    containsData: false
+  });
   // Stores the data entered in inputs
   const handleChange = (e) => {
-    const newData = data.filter(dataChunk =>
-      dataChunk[0] !== e.target.name
-    )
-    newData.push([e.target.name, e.target.value]);
-    setData(newData);
+    let newData = data;
+    switch(activeIndex){
+      case 0:
+        newData.generalInfo = data.generalInfo.filter(dataChunk =>
+          dataChunk[0] !== e.target.name
+        )
+        newData.generalInfo.push([e.target.name, e.target.value]);
+        setData(newData);
+        break;
+      case 1:
+        newData.educationalExperience = data.educationalExperience.filter(dataChunk => 
+          dataChunk[0] !== e.target.name
+        )
+        newData.educationalExperience.push([e.target.name, e.target.value]);
+        setData(newData);
+        break;
+    } 
   }
 
+  // Handles Check box in educational experience
+  const handleCheck = (e) => {
+    console.log(e.target.checked)
+    setIsChecked(e.target.checked)
+  }
+  
   const buttonPress = function(num, isPractical) {
     setActiveIndex(num);
+    // Below is only used if the Practical Experience Section is being rendered
+    // This section requires storing data differently because of the ability to add several jobs
     if (isPractical) {
       let inputItems = document.querySelectorAll('.inputItem');
       inputItems = Array.from(inputItems);
       let newData = data;
       inputItems.map(item => {
-        newData.push([item.name, item.value]);
+        newData.practicalExperience.push([item.name, item.value]);
       })
       setData(newData);
     }
   }
-
-  console.log(data)
+  console.log(data);
   return(
     <>
       {/*Clicking the next button in each section will set the active section to the next one*/}
@@ -51,46 +82,25 @@ function CollectDataApp() {
       isActive={activeIndex === 1}
       buttonPress={() => buttonPress(2)}
       handleChange={handleChange}
+      handleCheck = {handleCheck}
+      isChecked = {isChecked}
       />
       <PracticalExperience
       isActive={activeIndex === 2}
-      buttonPress={() => buttonPress(0, true)}
+      buttonPress={() => buttonPress(3, true)}
       data={data}
       setData={setData}
+      jobCount={jobCount}
+      setJobCount={setJobCount}
+      />
+      <DataOverview 
+      isActive={activeIndex === 3}
+      data={data}
+      setData={setData}
+      isChecked = {isChecked}
+      jobCount ={jobCount}
       />
     </>
-  )
-}
-
-function InputLi({name, labelText, type="text", placeholder="", keyName, className="listItem", handleChange}) {
-
-  return(
-      <li className={className} key={keyName}>
-        <label htmlFor={name}>{labelText}</label>
-        <input className="inputItem" id={name} type={type} onChange={handleChange} name={name} placeholder={placeholder}/>
-      </li>
-  )
-}
-
-function TextAreaLi({name, labelText, keyName, className='listItem', handleChange}) {
-  return(
-      <li className={className} key={keyName}>
-          <label htmlFor={name}>{labelText}</label>
-          <textarea className="inputItem" id={name} name={name} cols={40} rows={5} onChange={handleChange} />
-      </li>
-  )
-}
-
-function InputDropdown() {
-  return (
-      <li className='college'>
-      <label htmlFor='degreeType'>Select Type of Degree</label>
-      <select className="inputItem" name="degreeType" id="degreeType">
-          <option value="bachelors">Bachelors</option>
-          <option value="masters">Masters</option>
-          <option value="doctors">Doctors</option>
-      </select>
-      </li>
   )
 }
 
@@ -111,8 +121,7 @@ function GeneralInfo({ isActive, buttonPress, handleChange }) {
     }
 
 
-function EducationalExperience({ isActive, buttonPress, handleChange }) {
-const [isChecked, setIsChecked] = useState(false);
+function EducationalExperience({ isActive, buttonPress, handleChange, handleCheck, isChecked }) {
   return isActive &&
       <div className="educationalExperienceDiv">
           <form className="inputForm" >
@@ -122,15 +131,14 @@ const [isChecked, setIsChecked] = useState(false);
                   <InputLi name="highSchoolStartDate" labelText="Enter when you first went to high school" type="date" handleChange={handleChange} />
                   <InputLi name="highSchoolEndDate" labelText="Enter when you graduated from high school" type="date"handleChange={handleChange} />
                   <li className="listItem">
-                      <label htmlFor='checkbox'>Check if you have a college degree 
-                          <input className='inputItem' type="checkbox" name="collegeCheck" id="collegeCheck" onChange={handleChange} onClick={() => {
-                              isChecked ? setIsChecked(false) : setIsChecked(true);
-                          }} />
+                      <label htmlFor='collegeCheck'>Check if you have a college degree 
+                          <input className='inputItem' type="checkbox" name="collegeCheck" id="collegeCheck" onClick={handleCheck} />
                       </label>
                   </li>
                   {isChecked && (
                       <>
-                        <InputDropdown />
+                        <InputDropdown handleChange={handleChange}/>
+                        <InputLi name="collegeName" labelText="Enter your College Name" handleChange={handleChange} />
                         <InputLi name="collegeDegree" labelText="Enter your Degree" handleChange={handleChange} />
                         <InputLi name="collegeStartDate" labelText="When did you start College?" type="date" handleChange={handleChange} />
                         <InputLi name="collegeEndDate" labelText="When did you finish College?" type="date" handleChange={handleChange} />
@@ -165,28 +173,24 @@ function JobInput ({keyName, handleClick, index, handleChange}) {
   )
 }
 
-
-
-function PracticalExperience({ isActive, buttonPress }) {
+function PracticalExperience({ isActive, buttonPress, jobCount, setJobCount }) {
   // This section has a List of jobs that you can add and subtractfrom
   // Press X button to delete a job
   // Click add job to add a job
   // This way you can set as many job experiences as you want in the resume
-  const [jobCount, setJobCount] = useState(1);
-  const [jobData, setJobData] = useState([{id: 'jobData' + jobCount, key: uuidv4(), label: 'Job #' + jobCount, data: null}]);
+  const [jobData, setJobData] = useState([{id: 'jobData' + jobCount, key: uuidv4(), label: 'Job #' + jobCount}]);
 
   const addJob = () => {
     console.log('job added')
       setJobData([
         ...jobData,
-        { id: 'jobData' + (jobCount + 1), key: uuidv4(), data: null}
+        { id: 'jobData' + (jobCount + 1), key: uuidv4()}
       ]);
       setJobCount(jobData.length + 1);
   }
 
-  const deleteJobDiv = (removedKey, delIndex) => {
+  const deleteJobDiv = (removedKey) => {
     //Remove the job div if the X icon is clicked
-    console.log(delIndex);
     setJobData(
       jobData.filter(job =>
         job.key !== removedKey
@@ -209,5 +213,5 @@ function PracticalExperience({ isActive, buttonPress }) {
   </div>
 }
 
-  export {InputLi, TextAreaLi, CollectDataApp, GeneralInfo, EducationalExperience}
+  export { CollectDataApp }
   

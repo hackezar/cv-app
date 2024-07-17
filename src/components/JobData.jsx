@@ -2,9 +2,6 @@
 // UUID
 import { v4 as uuidv4 } from 'uuid';
 
-// Components
-import { InputLi, TextAreaLi } from "./CollectData.jsx"
-
 const jobInputs = [
     {
         name: 'companyName',

@@ -13,6 +13,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.root {
+  height: 100vh;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -23,16 +27,11 @@ a:hover {
 }
 
 body {
-  margin: 0;
   display: flex;
+  margin: 0;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  height: 100vh;
 }
 
 button {
@@ -69,9 +68,5 @@ button:focus-visible {
 
 .list{
   list-style: none;
-  
-}
-
-.listItem {
   
 }
