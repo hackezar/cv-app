@@ -3,19 +3,11 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  height: 100%;
 }
 
 .header {
-  width: 100vw;
-  margin: auto 0;
-  left:0;
-  right:0;
-  top: 0;
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+
   }
 
 .headerh1 {
