@@ -1,0 +1,262 @@
+.resumeOuter {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+}
+
+.resume {
+    display: grid;
+    grid-template-columns: 4fr 6fr;
+    grid-template-rows: 1fr 1fr 8fr;
+    height: 100vh;
+    width: 100%;
+    padding: 0 1rem;
+    padding-bottom: 1rem;
+    list-style: none;
+    font-size: 0.8rem;
+}
+
+.header {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.title {
+    width: 100%;
+    grid-row: 1/2;
+    grid-column: 1/3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.drawLine {
+    height: 1.5rem;
+    border-right: 1px solid black;
+}
+
+.name {
+    margin-top: auto;
+    padding-bottom: 1rem;
+    justify-content: end;
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+
+.aboutMe {
+    grid-row: 2/3;
+    grid-column: 1/3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 0.5rem;
+}
+
+.contact {
+    font-size: 0.8rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.bio {
+    margin: 0;
+    margin-right: auto;
+    text-align: center;
+}
+
+.bio > p{
+    margin: 0;
+}
+
+.contact > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icons {
+    height: 1.1rem;
+}
+
+.email > div{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.address {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.address > p {
+    margin: 0;
+}
+
+.education {
+    grid-row: 3/4;
+    grid-column: 1/2;
+    border-right: 1px solid black;
+    display: flex;
+    flex-direction: column;
+}
+
+.educationHeader {
+    border-bottom: 1px solid black;
+    padding-bottom: 0.3rem;
+}
+
+.collegeDiv {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding-right: 0.5rem;
+}
+
+.collegeBold {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.education, .workExperience {
+    border-top: 2px solid black;
+    margin-bottom: 1rem;
+    padding-top: 0.3rem;
+}
+
+.workHeader {
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid black;
+}
+
+.workExperience {
+    grid-row: 3/4;
+    grid-column: 2/3;
+    border-left: 1px solid black;
+}
+
+.companyNameAndDates {
+    padding-top: 0.3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0;
+    margin-left: 0.5rem;
+}
+
+.positionTitle {
+    font-weight: 600;
+}
+
+.positionTitle, .jobRespons {
+    margin: 0;
+}
+
+.dates > p{
+    line-height: 1;
+    margin: 0;
+    font-size: 0.7rem;
+}
+
+.buttonDiv {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.button {
+    background-color: lightcyan;
+    border: 1px solid black;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.jobDiv {
+    margin-bottom: 1rem;
+}
+
+@media screen and (min-width: 601px) {
+    /* #Root CSS For Larger Screens Can be found in App.css */
+
+    .resumeOuter {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #FFFFF7;
+    }
+
+    .resume {
+        aspect-ratio: 17/22;
+        font-size: 1rem;
+        grid-template-columns: 3fr 7fr;
+        border: 1px solid black;
+        height: 100vh;
+        max-height: 1056px;
+        max-width: 816px;
+        background-color: white;
+    }
+
+    .header {
+        font-size: 1.8rem;
+    }
+
+    .companyNameAndDates > h4 {
+        font-size: 1.5rem;
+    }
+
+    .companyNameAndDates {
+        margin: 1rem;
+    }
+
+    .dates > p {
+        font-size: 1rem;
+    }
+
+    .contact {
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
+        margin-top: 1rem;
+        font-size: 1.5rem;
+        }
+
+    .icons {
+        height: 2rem;
+    }
+
+
+    .aboutMe {
+        margin: 1rem;
+        font-size: 1.2rem;
+    }
+
+    .title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 1rem;
+        height: 6rem;
+        font-size: 2rem;
+        letter-spacing: 0.3rem;
+    }
+
+    .drawLine {
+        height: 2rem;
+    }
+
+    .collegeDiv, .collegeBold {
+        font-size: 1.3rem;
+    }
+
+    .button {
+        width: 10rem;
+        height: 3rem;
+    }
+}

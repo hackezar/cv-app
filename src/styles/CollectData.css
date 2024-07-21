@@ -6,8 +6,7 @@
 
 .jobInputDiv {
     position: relative;
-    border: 1px solid black;
-    padding: 1em;
+    margin: 1rem;
 }
 
 .jobInputDiv > input, label {
@@ -30,3 +29,88 @@ textarea {
 .deleteIcon:hover {
     cursor: pointer;
 }
+
+.generalInfoDiv {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.collectDataHeaders {
+    margin-top: 2rem;
+    font-size: 2rem;
+  }
+  
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /*Hides the up and down increment in number inputs */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  
+  .nextBtn, .addBtn, .removeBtn, .buttonStyle {
+    background-color: lightcyan;
+    border: 1px solid black;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+  
+  .nextBtn {
+    margin-bottom: 2rem;
+    width: 12rem;
+  }
+
+  .nextBtnEducation {
+    margin-top: 1rem;
+  }
+  
+  .addDeleteBtnsDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .addDeleteBtnsDiv > button {
+    width: 12rem;
+  }
+  
+  .collegeInputDiv {
+    margin-bottom: 1rem;
+  }
+  
+  .collegeDiv > div > h6 {
+    margin: 0.1rem;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .jobInputDiv > h6 {
+    margin: 0;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #1F51FF;
+    border-top: 1px solid #1F51FF;
+  }
+
+  .buttonsDiv {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .editBtn {
+    width: 6rem;
+  }

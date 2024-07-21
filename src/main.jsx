@@ -8,11 +8,6 @@ import './styles/App.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <div className="rootDiv">
-      <Header />
-      <div className="appDiv">
         <App />
-      </div>
-    </div>
   </React.StrictMode>,
 )

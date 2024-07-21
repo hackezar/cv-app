@@ -16,10 +16,10 @@ import DeleteIcon from "../assets/delete.svg"
 // Job Data
 import {  jobInputs, collegeInputs } from './EducationAndJobData.jsx';
 import { DataOverview } from './DataOverview.jsx';
-import { render } from 'react-dom';
 import { getDefaultValue } from './storage.js';
 
-function CollectDataApp() {
+function CollectDataApp({activeApp, createResume, startingSection}) {
+  console.log(createResume)
   // Stores data entered in session storage
   let storedData = sessionStorage.getItem('storedData')
   storedData = JSON.parse(storedData);
@@ -32,8 +32,7 @@ function CollectDataApp() {
         practicalExperience: {},
         jobCount: 1,
       }
-  
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(startingSection);
   // Below is used for educational experience element
   const [jobCount, setJobCount] = useState(storedData.jobCount);
   const [collegeCount, setCollegeCount] = useState(storedData.collegeCount)
@@ -42,7 +41,6 @@ function CollectDataApp() {
   // Stores the data entered in inputs
   const handleChange = (e) => {
     let newData = data;
-    console.log(e.target, newData)
     switch(activeIndex){
       case 0:
         newData.generalInfo[e.target.name] = e.target.value
@@ -78,45 +76,48 @@ function CollectDataApp() {
     // Stores data in session storage if all inputs are entered
     sessionStorage.setItem('storedData', JSON.stringify(data))
   }
-
-  return(
-    <>
-      {/*Clicking the next button in each section will set the active section to the next one*/}
-      <GeneralInfo
-      isActive={activeIndex === 0}
-      buttonPress={() => buttonPress(1)}
-      handleChange={handleChange}
-      data={data}
-       />
-      <EducationalExperience
-      isActive={activeIndex === 1}
-      buttonPress={() => buttonPress(2)}
-      handleChange={handleChange}
-      data ={data}
-      setData = {setData}
-      collegeCount={collegeCount}
-      setCollegeCount = {setCollegeCount}
-      isChecked={isChecked}
-      />
-      <PracticalExperience
-      isActive={activeIndex === 2}
-      buttonPress={() => buttonPress(3)}
-      data={data}
-      setData={setData}
-      jobCount={jobCount}
-      setJobCount={setJobCount}
-      handleChange={handleChange}
-      />
-      <DataOverview 
-      isActive={activeIndex === 3}
-      data={data}
-      setData={setData}
-      jobCount ={jobCount}
-      collegeCount={collegeCount}
-      setActiveIndex={setActiveIndex}
-      />
-    </>
-  )
+  console.log(activeApp)
+  if (activeApp){
+    return(
+      <>
+        {/*Clicking the next button in each section will set the active section to the next one*/}
+        <GeneralInfo
+        isActive={activeIndex === 0}
+        buttonPress={() => buttonPress(1)}
+        handleChange={handleChange}
+        data={data}
+        />
+        <EducationalExperience
+        isActive={activeIndex === 1}
+        buttonPress={() => buttonPress(2)}
+        handleChange={handleChange}
+        data ={data}
+        setData = {setData}
+        collegeCount={collegeCount}
+        setCollegeCount = {setCollegeCount}
+        isChecked={isChecked}
+        />
+        <PracticalExperience
+        isActive={activeIndex === 2}
+        buttonPress={() => buttonPress(3)}
+        data={data}
+        setData={setData}
+        jobCount={jobCount}
+        setJobCount={setJobCount}
+        handleChange={handleChange}
+        />
+        <DataOverview 
+        isActive={activeIndex === 3}
+        data={data}
+        setData={setData}
+        jobCount ={jobCount}
+        collegeCount={collegeCount}
+        setActiveIndex={setActiveIndex}
+        createResume={createResume}
+        />
+      </>
+    )
+  }
 }
 
 function GeneralInfo({ isActive, buttonPress, handleChange, data }) {
@@ -124,16 +125,18 @@ function GeneralInfo({ isActive, buttonPress, handleChange, data }) {
   // If isActive is true, will render this section
   return isActive && 
       <div className="generalInfoDiv">
+        <div className="collectDataHeaders">
+          General Info
+        </div>
         <form className="inputForm">
-          <legend>General Info</legend>
           <ul className="list">
             <InputLi name="name"  labelText="Name" placeholder="Ex: John Doe" handleChange={handleChange} getDefaultValue={getDefaultValue(data, 'generalInfo', 'name')} />
             <InputLi name="email" type="email" labelText="Email" placeholder="johndoe@gmail.com" handleChange={handleChange} getDefaultValue={getDefaultValue(data, 'generalInfo', 'email')} />
             <InputLi name="phone" type="tel" labelText="Phone" placeholder="555-555-5555" handleChange={handleChange} getDefaultValue={getDefaultValue(data, 'generalInfo', 'phone')}/>
             <InputLi name="address" type="text" labelText="Address" placeholder="7562 Lakeshore Dr" handleChange={handleChange} getDefaultValue={getDefaultValue(data, 'generalInfo', 'address')}/>
             <InputLi name="state" type="text" labelText="State" placeholder="FL" handleChange={handleChange} getDefaultValue={getDefaultValue(data, 'generalInfo', 'state')}/>
-            <InputLi name="address" type="number" labelText="Zip Code" placeholder="33710" handleChange={handleChange} getDefaultValue={getDefaultValue(data, 'generalInfo', 'zipCode')}/>
-
+            <InputLi name="zipCode" type="number" labelText="Zip Code" placeholder="33710" handleChange={handleChange} getDefaultValue={getDefaultValue(data, 'generalInfo', 'zipCode')}/>
+            <TextAreaLi name="aboutMe" labelText="Write a Breif Summary About Yourself" placeholder="blah blah blah blah I am so very important" handleChange={handleChange} getDefaultValue={getDefaultValue(data, 'generalInfo', 'aboutMe')}/>
           </ul>
         </form>
         <button className="nextBtn" onClick={buttonPress}>Next</button>
@@ -191,11 +194,13 @@ function EducationalExperience({ isActive, buttonPress, handleChange, data, setD
 
   return isActive &&
       <div className="educationalExperienceDiv">
+          <div className="collectDataHeaders">
+            Educational Experience
+          </div>
           <form className="inputForm" >
-              <legend>Educational Experience</legend>
               <ul className="list">
                   <InputLi name="highSchoolName" labelText="Enter The Name of your High School" type="text" handleChange={handleChange} getDefaultValue={getDefaultValue(data, 'educationalExperience', 'highSchoolName')}/>
-                  <InputLi name="highSchoolStartDate" labelText="Enter when you first went to high school" type="date" handleChange={handleChange} getDefaultValue={getDefaultValue(data, 'educationalExperience', 'highSchoolStartData')}/>
+                  <InputLi name="highSchoolStartDate" labelText="Enter when you first went to high school" type="date" handleChange={handleChange} getDefaultValue={getDefaultValue(data, 'educationalExperience', 'highSchoolStartDate')}/>
                   <InputLi name="highSchoolEndDate" labelText="Enter when you graduated from high school" type="date"handleChange={handleChange} getDefaultValue={getDefaultValue(data, 'educationalExperience', 'highSchoolEndDate')}/>
                   <li className="listItem">
                       <label htmlFor='collegeCheck'>Check if you have a college degree 
@@ -203,8 +208,11 @@ function EducationalExperience({ isActive, buttonPress, handleChange, data, setD
                       </label>
                   </li>
                   {isChecked && 
+                  <>
                     <div className="collegeDiv" key="collegeInputsDiv" >
                       {collegeData}
+                    </div>
+                    <div className="addDeleteBtnsDiv">
                       <button type="button" className="removeBtn" onClick={deleteLastCollegeDiv}>
                         Delete Last College
                       </button>
@@ -212,11 +220,13 @@ function EducationalExperience({ isActive, buttonPress, handleChange, data, setD
                         Add College
                       </button>
                     </div>
+                  </>
                   }
-
               </ul>
           </form>
-          <button className="nextBtn" onClick={buttonPress}>Next</button>
+          <div className="nextBtnDiv nextBtnEducation">
+            <button className="nextBtn" onClick={buttonPress}>Confirm Data</button>
+          </div>
       </div>
 }
 
@@ -228,44 +238,43 @@ function PracticalExperience({ isActive, buttonPress, handleChange, jobCount, se
   // Click add job to add a job
   // This way you can set as many job experiences as you want in the resume'
 
-  function JobInput ({keyName, index}) {
-    const jobListItems = jobInputs.map(job => {
-      let jobName = job.name + index;
+  function JobInput ({keyName, index, name}) {
       return(
-      job.type !== 'textarea'
-      // Render a Input if the type isnt set as textarea 
-      ? 
-          <InputLi name={jobName} labelText={job.labelText} type={job.type} key={job.key} className={job.className} handleChange={handleChange} value={data.practicalExperience[jobName]}/>
-      // Otherwise render a Textarea
-      : 
-          <TextAreaLi name={jobName} labelText={job.labelText} key={job.key} className={job.className} handleChange={handleChange} value={data.practicalExperience[jobName]} />        
-      )
-    })
-    return (
-      <div className="jobInputDiv" key={keyName} >
-        <h6>{'Job '+ (index)}</h6>
-        {jobListItems}
+      <div className="jobInputDiv" key={keyName} id={name}>
+        <h6>{'Job ' + index}</h6>
+        {jobInputs.map(input => {
+          let jobName = input.name + index
+          return (
+            input.type !== 'textarea'
+            // Render a Input if the type isnt set as textarea 
+            ? 
+                <InputLi name={jobName} labelText={input.labelText} type={input.type} key={input.key} className={input.className} handleChange={handleChange} getDefaultValue={getDefaultValue(data, 'practicalExperience', jobName)} />
+            // Otherwise render a Textarea
+            : 
+                <TextAreaLi name={jobName} labelText={input.labelText} key={input.key} className={input.className} handleChange={handleChange} getDefaultValue={getDefaultValue(data, 'practicalExperience', jobName)}  />   
+          )
+        })}
       </div>
-    )
+      )
+    }
+
+  const jobData = []
+  for (let i=1; i<= jobCount; i++) {
+    jobData.push(<JobInput key={'college' + i} index={i} name={'jobSection' + i} />)
   }
 
-  const [jobData, setJobData] = useState([{id: 'jobData' + jobCount, key: uuidv4(), label: 'Job #' + jobCount}]);
   const addJob = () => {
     console.log('job added')
-      setJobData([
-        ...jobData,
-        { id: 'jobData' + (jobCount + 1), key: uuidv4()}
-      ]);
-      setJobCount(jobCount + 1);
+      jobCount++
+      setJobCount(jobCount);
+      let newData = data
+      newData.jobCount = jobCount
+      setData(newData)
   }
 
   const deleteLastJobDiv = () => {
     //Remove the job div if the button is clicked
-    setJobData(
-      jobData.filter(job =>
-        job.id !== ('jobData' + jobCount) 
-      )
-    )
+
     // delete data of last job div
     let newData = data;
     delete newData.practicalExperience['companyName' + jobCount]
@@ -273,24 +282,24 @@ function PracticalExperience({ isActive, buttonPress, handleChange, jobCount, se
     delete newData.practicalExperience['jobRespons' + jobCount]
     delete newData.practicalExperience['dateFrom' + jobCount]
     delete newData.practicalExperience['dateTo' + jobCount]
+    jobCount--
+    newData.jobCount = jobCount
     setData(newData)
-    setJobCount(jobCount - 1)
+    setJobCount(jobCount)
   }
 
   return isActive &&
-      <div className="practicalExperienceDiv">
-          <legend>Work History</legend>
-          <ul className="list">
-            {jobData.map((job, index) => (
-              <JobInput key={job.key} index={index + 1} />
-            ))}
-          </ul>
+    <div className="practicalExperienceDiv">
+      <div className="collectDataHeaders">Work History</div>
+      <ul className="list">
+        {jobData}
+      </ul>
       <div className='buttonsDiv'>
         <button className="removeBtn" onClick={deleteLastJobDiv}>Remove Last Job</button>
         <button className="addBtn" onClick={addJob}>Add Job</button>
       </div>
       <button className="nextBtn" onClick={buttonPress}>Next</button>
-  </div>
+    </div>
 }
 
   export { CollectDataApp }

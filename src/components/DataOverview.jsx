@@ -1,24 +1,21 @@
 /* eslint-disable react/prop-types */
-import { mockData } from "./EducationAndJobData.jsx";
 
-function DataOverview({isActive, isChecked, data, setData, collegeCount, jobCount, setActiveIndex}) {
-    //Store All Submitted Data
-        
-
+import '../styles/dataOverview.css';
+function DataOverview({isActive, data, collegeCount, setActiveIndex, createResume}) {
     // Render the Practical Experience List Items
     function PracticalItems(){
         let practicalItems=[];
-        for (let i=1; i<=jobCount; i++){
+        for (let i=1; i<=data.jobCount; i++){
             let jobTitle = 'Job #' + i;
             practicalItems.push(
                 <div>
                     <h4>{jobTitle}</h4>
-                    <ul>
-                        <li>Company Name: {data.practicalExperience['companyName' + i]}</li>
-                        <li>Position Title: {data.practicalExperience['positionTitle' + i]}</li>
-                        <li>Job Responsibilities: {data.practicalExperience['jobRespons' + i]}</li>
-                        <li>Date Started: {data.practicalExperience['dateTo' + i]}</li>
-                        <li>Last Date of Employment: {data.practicalExperience['dateFrom' + i]}</li>
+                    <ul className="dataOverviewList">
+                        <li><div className="boldText">Company Name: </div>{data.practicalExperience['companyName' + i]}</li>
+                        <li><div className="boldText">Position Title: </div>{data.practicalExperience['positionTitle' + i]}</li>
+                        <li><div className="boldText">Job Responsibilities: </div>{data.practicalExperience['jobRespons' + i]}</li>
+                        <li><div className="boldText">Date Started: </div>{data.practicalExperience['dateTo' + i]}</li>
+                        <li><div className="boldText">Last Date of Employment: </div>{data.practicalExperience['dateFrom' + i]}</li>
                     </ul>
                 </div>
             )
@@ -31,13 +28,13 @@ function DataOverview({isActive, isChecked, data, setData, collegeCount, jobCoun
         for (let i=1; i<=collegeCount; i++){
             let collegeTitle = 'College Degree #' + i
             collegeItems.push(
-                <div>
+                <div className="dataOverviewList">
                     <h4>{collegeTitle}</h4>
-                    <li>College Name: {data.educationalExperience['collegeName' + i]} </li>
-                    <li>Degree Type: {data.educationalExperience['degreeType' + i]} </li>
-                    <li>Degree Name: {data.educationalExperience['degreeName' + i]} </li>
-                    <li>Start Date: {data.educationalExperience['collegeStartDate' + i]} </li>
-                    <li>Date Finished: {data.educationalExperience['collegeEndDate' + i]} </li>
+                    <li><div className="boldText">College Name: </div>{data.educationalExperience['collegeName' + i]} </li>
+                    <li><div className="boldText">Degree Type: </div>{data.educationalExperience['degreeType' + i]} </li>
+                    <li><div className="boldText">Degree Name: </div>{data.educationalExperience['degreeName' + i]} </li>
+                    <li><div className="boldText">Start Date: </div>{data.educationalExperience['collegeStartDate' + i]} </li>
+                    <li><div className="boldText">Date Finished: </div>{data.educationalExperience['collegeEndDate' + i]} </li>
                 </div>
             )
         }
@@ -46,47 +43,53 @@ function DataOverview({isActive, isChecked, data, setData, collegeCount, jobCoun
     
     return isActive &&
         <div className="dataOverview">
-            <h3>Review your information</h3>
-            <div>
-                <h4>General Information</h4>
-                <ul>
+            <h3 className="overviewHeader">Review your information</h3>
+            <div className="dataOverviewDiv">
+                <div className="overviewSubHeader">General Information</div>
+                <ul className="dataOverviewList">
                     <li>
-                        Name: {data.generalInfo.name}
+                        <div className="boldText">Name: </div>{data.generalInfo.name}
                     </li>
                     <li>
-                        Email: {data.generalInfo.email}
+                        <div className="boldText">Email: </div>{data.generalInfo.email}
                     </li>
                     <li>
-                        Phone #: {data.generalInfo.phone}
+                        <div className="boldText">Phone #: </div>{data.generalInfo.phone}
+                    </li>
+                    <li>
+                        <div className="boldText">About Me: </div>{data.generalInfo.aboutMe}
                     </li>
                 </ul>
-                <button onClick={() =>setActiveIndex(0)}>Edit</button>
+                <button className="buttonStyle editBtn" onClick={() =>setActiveIndex(0)}>Edit</button>
             </div>
-            <div>
-                <h4>Educational Experience</h4>
-                <ul>
+            <div className="dataOverviewDiv">
+                <div className="overviewSubHeader">Educational Experience</div>
+                <ul className="dataOverviewList">
+                    <h4>High School</h4>
                     <li>
-                        High School: {data.educationalExperience.highSchoolName}
+                        <div className="boldText">High School Name: </div>{data.educationalExperience.highSchoolName}
                     </li>
                     <li>
-                        Date Started: {data.educationalExperience.highSchoolStartDate}
+                        <div className="boldText">Date Started: </div>{data.educationalExperience.highSchoolStartDate}
                     </li>
                     <li>
-                        Date Finished: {data.educationalExperience.highSchoolEndDate}
+                        <div className="boldText">Date Finished: </div>{data.educationalExperience.highSchoolEndDate}
                     </li>
-                    {isChecked && 
-                    <CollegeItems />
+                    {data.educationalExperience.collegeCheck && 
+                        <CollegeItems />
                     }
                 </ul>
-                <button onClick={() => setActiveIndex(1)}>Edit</button>
+                <button className="buttonStyle editBtn" onClick={() => setActiveIndex(1)}>Edit</button>
                 </div>
 
-            <div>
-                <h4>Practical Experience</h4>
+            <div className="dataOverviewDiv">
+                <div className="overviewSubHeader">Practical Experience</div>
                 <PracticalItems />
-                <button onClick={() => setActiveIndex(2)}>Edit</button>
+                <button className="buttonStyle editBtn" onClick={() => setActiveIndex(2)}>Edit</button>
             </div>
-            <button>Create CV</button>
+            <div className="createResumeBtnDiv">
+                <button className="buttonStyle createResumeBtn" onClick={createResume}>Create Resume</button>
+            </div>
 
         </div>
 }

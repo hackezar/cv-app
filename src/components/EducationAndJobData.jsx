@@ -55,21 +55,20 @@ const jobInputs = [
     {
         name: 'dateFrom',
         labelText: 'Date Started',
-        type: 'date',
+        type: 'text',
         className: 'jobInputItem',
         key: uuidv4(),
         value: null
     },
     {
         name: 'dateTo',
-        labelText: 'Date Stopped Working',
-        type: 'date',
+        labelText: 'Date Stopped Working (Enter "Current" if you are currently working here)',
+        type: 'text',
         className: 'jobInputItem',
         key: uuidv4(),
         value: null
     }
 ];
-
 const collegeInputs = [
     {
         name: 'collegeName',

@@ -1,5 +1,7 @@
 // Unique Key
 import { v4 as uuidv4 } from 'uuid';
+import { useState } from 'react'
+
 
 
 /* eslint-disable react/prop-types */
@@ -11,17 +13,17 @@ function InputLi({name, labelText, type="text", placeholder="", keyName=uuidv4()
         </li>
     )
   }
-  
-  function TextAreaLi({name, labelText, keyName=uuidv4(), className='listItem', handleChange, value}) {
+
+  function TextAreaLi({name, labelText, keyName=uuidv4(), className='listItem', handleChange, getDefaultValue=""}) {
     return(
         <li className={className} key={keyName}>
             <label htmlFor={name}>{labelText}</label>
-            <textarea className="inputItem" id={name} name={name} cols={40} rows={5} onChange={handleChange} value={value}/>
+            <textarea className="inputItem" id={name} name={name} cols={40} rows={5} onChange={handleChange}>{getDefaultValue}</textarea>
         </li>
     )
   }
   
-  function InputDropdown({handleChange, name, keyName=uuidv4(), value, getDefaultValue=""}) {
+  function InputDropdown({handleChange, name, keyName=uuidv4(), getDefaultValue=""}) {
     return (
         <li className='college' key={keyName}>
         <label htmlFor='degreeType'>Select Type of Degree</label>
